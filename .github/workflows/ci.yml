@@ -1,12 +1,12 @@
-name: CI
-
 on:
   push:
-    branches:
-            - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build:
+
+ build:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
@@ -24,4 +24,3 @@ jobs:
         with:
           name: binary
           path: ./dummy-server.bin
-

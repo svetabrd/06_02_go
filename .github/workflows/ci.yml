@@ -1,26 +1,34 @@
+# как назвать - выбирам сами
+name: CI
+
+# ниже написано, что запускаем на push в одну из веток (master/main)
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - master
+      - main
 
+# список задач
 jobs:
-
- build:
+  # задача под названием build (название придумали сами)
+  build:
+    # на какой ОС запускать
     runs-on: ubuntu-20.04
+    # шаги (следующий выполняется только, если предыдущий успешен)
     steps:
-      - name: Checkout Code
+      # используем готовый action - вытаскиваем из репо исходники
+      - name: Checkout code
         uses: actions/checkout@v3
-      - name: Build Binary
+      # запускаем собственную команду (make)
+      - name: Build app
         run: make
-      - name: Simple Test
-        run: |
-          ./dummy-server.bin &
-          sleep 3
-          curl -s -k https://localhost:8443
-          kill $!
-      - name: Upload Artifact
+      # используем готовый action - загружаем артефакт
+      - name: Upload binary
         uses: actions/upload-artifact@v3
+        # настраиваем параметры
         with:
+          # под каким именем
           name: binary
+          # какой конкретно файл
           path: ./dummy-server.bin
+
